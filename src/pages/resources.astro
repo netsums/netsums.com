@@ -6,9 +6,7 @@ const resources = [
     title: 'FREE CLI Cheat Sheet & S2S VPN Form',
     description: 'An 8-page command-line interface reference document available in PDF, PNG, and black-and-white print-friendly formats. Also includes a Site-to-Site VPN parameter exchange template for sharing connection details with business partners.',
     files: [
-      { label: 'Download PDF', href: '/downloads/cli-cheatsheet.pdf', icon: 'pdf' },
-      { label: 'Download PNG', href: '/downloads/cli-cheatsheet.png', icon: 'img' },
-      { label: 'Download B&W Print', href: '/downloads/cli-cheatsheet-bw.pdf', icon: 'pdf' },
+      { label: 'Get Free Download', href: 'https://cli-vpn-download.netsums.com', icon: 'pdf' },
     ],
   },
 ];
@@ -34,7 +32,8 @@ const resources = [
               {resource.files.map(file => (
                 <a
                   href={file.href}
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-colors"
                   style="color:#5ce1e6; border-color:#03989e66; background:#03989e1a"
                 >
