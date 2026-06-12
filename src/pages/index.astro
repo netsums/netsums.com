@@ -1,23 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getLatestVideos } from '../utils/youtube';
 
-const videos = [
-  {
-    id: 'hd1U0LXdGVE',
-    title: "Everything You Don't Know About Palo Alto Tags (Yet)",
-    description: 'Master Palo Alto tag functionality — from address and zone assignments to dynamic address groups and API-based dynamic blocking.',
-  },
-  {
-    id: 'qBF323lytN0',
-    title: 'How to Configure BGP on Palo Alto Firewalls | Step-by-Step Tutorial [2025]',
-    description: 'A complete step-by-step guide to setting up BGP on Palo Alto firewalls with routing best practices.',
-  },
-  {
-    id: '0sqypHLjvDg',
-    title: 'Palo Alto — Geo-Redundancy with GlobalProtect [2025]',
-    description: 'Configure GlobalProtect portal and gateway for multinational deployments with a geo-redundant architecture.',
-  },
-];
+const videos = await getLatestVideos(9);
 ---
 
 <Layout title="Home" description="Free IT security tutorials for network professionals — level up your skills with NETSums.">
@@ -101,6 +86,9 @@ const videos = [
                 </a>
               </h3>
               <p class="text-sm flex-1" style="color:#94a3b8">{video.description}</p>
+              {video.publishedAt && (
+                <p class="text-xs mt-2" style="color:#475569">{video.publishedAt}</p>
+              )}
               <a
                 href={`https://www.youtube.com/watch?v=${video.id}`}
                 target="_blank"
