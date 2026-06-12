@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-// Sign up free at https://formspree.io and replace YOUR_FORM_ID below
-const FORMSPREE_ID = 'YOUR_FORM_ID';
+// Get a free access key at https://web3forms.com (enter contact@netsums.com).
+// The key is public/safe to expose in client-side code.
+const WEB3FORMS_ACCESS_KEY = '32e6372d-7cb0-44ff-b110-8626426ffd21';
 ---
 
 <Layout title="Contact" description="Get in touch with NETSums.">
@@ -16,11 +17,19 @@ const FORMSPREE_ID = 'YOUR_FORM_ID';
       </div>
 
       <form
-        action={`https://formspree.io/f/${FORMSPREE_ID}`}
+        id="contact-form"
+        action="https://api.web3forms.com/submit"
         method="POST"
         class="rounded-xl border border-white/10 p-8 flex flex-col gap-5"
         style="background-color:#132d52"
       >
+        <!-- Web3Forms config -->
+        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+        <input type="hidden" name="subject" value="New message from netsums.com contact form" />
+        <input type="hidden" name="from_name" value="NETSums Website" />
+        <!-- Honeypot spam trap (bots fill this; humans don't see it) -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
         <div class="flex flex-col gap-1">
           <label for="name" class="text-sm font-medium text-white">Your Name <span style="color:#03989e">*</span></label>
           <input
@@ -60,14 +69,62 @@ const FORMSPREE_ID = 'YOUR_FORM_ID';
           ></textarea>
         </div>
 
+        <label class="flex items-start gap-2 text-sm" style="color:#94a3b8">
+          <input type="checkbox" required class="mt-1 accent-[#03989e]" />
+          <span>I agree that my data will be processed to handle my request, as described in the
+            <a href="/privacy-policy" class="underline" style="color:#5ce1e6">Privacy Policy</a>.</span>
+        </label>
+
         <button
+          id="submit-btn"
           type="submit"
-          class="mt-2 px-6 py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90"
+          class="mt-2 px-6 py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
           style="background-color:#03989e"
         >
           Send Message
         </button>
+
+        <p id="form-status" class="text-sm hidden"></p>
       </form>
     </div>
   </section>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const status = document.getElementById('form-status') as HTMLParagraphElement;
+
+    function setStatus(msg: string, ok: boolean) {
+      status.textContent = msg;
+      status.classList.remove('hidden');
+      status.style.color = ok ? '#5ce1e6' : '#f87171';
+    }
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      const original = btn.textContent;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          form.reset();
+          setStatus('Thanks! Your message has been sent — I\'ll get back to you soon.', true);
+        } else {
+          setStatus(data.message || 'Something went wrong. Please try again or email contact@netsums.com.', false);
+        }
+      } catch {
+        setStatus('Network error. Please try again or email contact@netsums.com.', false);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = original;
+      }
+    });
+  </script>
 </Layout>
