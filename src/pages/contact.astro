@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-// Get a free access key at https://web3forms.com (enter contact@netsums.com).
-// The key is public/safe to expose in client-side code.
-const WEB3FORMS_ACCESS_KEY = '32e6372d-7cb0-44ff-b110-8626426ffd21';
+import { WEB3FORMS_KEY } from 'astro:env/client';
+// Web3Forms access key — set as the WEB3FORMS_KEY variable in Railway.
+const WEB3FORMS_ACCESS_KEY = WEB3FORMS_KEY;
 ---
 
 <Layout title="Contact" description="Get in touch with NETSums.">
