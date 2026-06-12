@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const resources = [
+  {
+    title: 'FREE CLI Cheat Sheet & S2S VPN Form',
+    description: 'An 8-page command-line interface reference document available in PDF, PNG, and black-and-white print-friendly formats. Also includes a Site-to-Site VPN parameter exchange template for sharing connection details with business partners.',
+    files: [
+      { label: 'Download PDF', href: '/downloads/cli-cheatsheet.pdf', icon: 'pdf' },
+      { label: 'Download PNG', href: '/downloads/cli-cheatsheet.png', icon: 'img' },
+      { label: 'Download B&W Print', href: '/downloads/cli-cheatsheet-bw.pdf', icon: 'pdf' },
+    ],
+  },
+];
+---
+
+<Layout title="Resources" description="Free downloadable resources for IT and network professionals from NETSums.">
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-12">
+        <span class="inline-block text-sm font-semibold px-3 py-1 rounded-full mb-4 border" style="color:#5ce1e6; border-color:#03989e44; background:#03989e1a">
+          Free Downloads
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white">Resources</h1>
+        <p class="mt-3 text-lg" style="color:#94a3b8">Complimentary tools and references for professional use — no sign-up required.</p>
+      </div>
+
+      <div class="flex flex-col gap-8">
+        {resources.map(resource => (
+          <div class="rounded-xl border border-white/10 p-6 sm:p-8" style="background-color:#132d52">
+            <h2 class="text-xl font-bold text-white mb-3">{resource.title}</h2>
+            <p class="mb-6" style="color:#94a3b8">{resource.description}</p>
+            <div class="flex flex-wrap gap-3">
+              {resource.files.map(file => (
+                <a
+                  href={file.href}
+                  download
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-colors"
+                  style="color:#5ce1e6; border-color:#03989e66; background:#03989e1a"
+                >
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {file.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

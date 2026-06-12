@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About" description="Learn about Ricardo and the NETSums mission — free IT security education for network professionals.">
+  <section class="py-20 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="mb-10">
+        <span class="inline-block text-sm font-semibold px-3 py-1 rounded-full mb-4 border" style="color:#5ce1e6; border-color:#03989e44; background:#03989e1a">
+          About NETSums
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white">The Mission</h1>
+      </div>
+
+      <div class="rounded-xl border border-white/10 p-8 sm:p-10" style="background-color:#132d52">
+        <blockquote class="text-xl font-semibold italic mb-8 pb-8 border-b border-white/10" style="color:#5ce1e6">
+          "The mission of NETSums is to help you become a better network professional."
+        </blockquote>
+
+        <div class="flex flex-col sm:flex-row gap-8 items-start">
+          <img
+            src="/ricardo.jpg"
+            alt="Ricardo, founder of NETSums"
+            class="w-32 h-32 rounded-full object-cover border-2 flex-shrink-0"
+            style="border-color:#03989e"
+            onerror="this.style.display='none'"
+          />
+          <div>
+            <h2 class="text-xl font-bold text-white mb-3">Hi, I'm Ricardo</h2>
+            <p class="leading-relaxed mb-4" style="color:#94a3b8">
+              I've spent over 15 years working with networking equipment from major vendors including
+              <strong class="text-white">Palo Alto Networks</strong>,
+              <strong class="text-white">Cisco Systems</strong>,
+              <strong class="text-white">Hewlett Packard Enterprise</strong>, and
+              <strong class="text-white">Ubiquiti</strong>.
+            </p>
+            <p class="leading-relaxed mb-4" style="color:#94a3b8">
+              Originally from Rio de Janeiro, Brazil, I relocated to Germany in 2004 where I now live with my spouse and three children.
+            </p>
+            <p class="leading-relaxed" style="color:#94a3b8">
+              I created NETSums to share what I've learned — for free. Whether you're just starting out or want to go deeper on specific technologies, I hope these tutorials help you grow.
+            </p>
+
+            <div class="mt-6 flex gap-4">
+              <a
+                href="https://www.youtube.com/channel/UCCBxPV1V0majbAR5PNu2ACw/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                style="background-color:#03989e"
+              >
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                Watch on YouTube
+              </a>
+              <a
+                href="/contact"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-colors"
+                style="color:#5ce1e6; border-color:#03989e66; background:#03989e1a"
+              >
+                Get in touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,86 @@
+---
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/resources', label: 'Resources' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="border-b border-white/10 bg-[#0a1628]/90 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 group">
+      <span class="text-2xl font-extrabold tracking-tight">
+        <span class="text-white">NET</span><span style="color:#03989e">Sums</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-6">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class={`text-sm font-medium transition-colors ${
+            currentPath === link.href
+              ? 'text-[#5ce1e6]'
+              : 'text-[#94a3b8] hover:text-white'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="https://www.youtube.com/channel/UCCBxPV1V0majbAR5PNu2ACw/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm font-semibold px-4 py-2 rounded-lg text-white transition-colors"
+        style="background-color:#03989e"
+      >
+        YouTube
+      </a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button id="menu-toggle" class="md:hidden text-[#94a3b8] hover:text-white" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile nav -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#0f2240]">
+    <nav class="flex flex-col px-4 py-4 gap-3">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class={`text-sm font-medium py-1 transition-colors ${
+            currentPath === link.href
+              ? 'text-[#5ce1e6]'
+              : 'text-[#94a3b8] hover:text-white'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="https://www.youtube.com/channel/UCCBxPV1V0majbAR5PNu2ACw/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm font-semibold mt-2 px-4 py-2 rounded-lg text-white text-center"
+        style="background-color:#03989e"
+      >
+        YouTube
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+</script>

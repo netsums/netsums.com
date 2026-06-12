@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const videos = [
+  {
+    id: 'hd1U0LXdGVE',
+    title: "Everything You Don't Know About Palo Alto Tags (Yet)",
+    description: 'Master Palo Alto tag functionality — from address and zone assignments to dynamic address groups and API-based dynamic blocking.',
+  },
+  {
+    id: 'qBF323lytN0',
+    title: 'How to Configure BGP on Palo Alto Firewalls | Step-by-Step Tutorial [2025]',
+    description: 'A complete step-by-step guide to setting up BGP on Palo Alto firewalls with routing best practices.',
+  },
+  {
+    id: '0sqypHLjvDg',
+    title: 'Palo Alto — Geo-Redundancy with GlobalProtect [2025]',
+    description: 'Configure GlobalProtect portal and gateway for multinational deployments with a geo-redundant architecture.',
+  },
+];
+---
+
+<Layout title="Home" description="Free IT security tutorials for network professionals — level up your skills with NETSums.">
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden py-24 px-4">
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 80% 60% at 50% -10%, #03989e33 0%, transparent 70%)"></div>
+    <div class="max-w-3xl mx-auto text-center relative">
+      <span class="inline-block text-sm font-semibold px-3 py-1 rounded-full mb-4 border" style="color:#5ce1e6; border-color:#03989e44; background:#03989e1a">
+        Free IT Security Education
+      </span>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+        Level up your<br />
+        <span style="color:#5ce1e6">IT Security Skills</span>
+      </h1>
+      <p class="mt-6 text-lg max-w-xl mx-auto" style="color:#94a3b8">
+        Expert-led tutorials designed to help IT Security Engineers grow and advance — completely free.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="https://www.youtube.com/channel/UCCBxPV1V0majbAR5PNu2ACw/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90"
+          style="background-color:#03989e"
+        >
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+          Watch on YouTube
+        </a>
+        <a
+          href="/resources"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors border"
+          style="color:#5ce1e6; border-color:#03989e66; background:#03989e1a"
+        >
+          Free Resources
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutorials -->
+  <section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl font-bold text-white mb-2">Latest Tutorials</h2>
+      <p class="mb-10" style="color:#94a3b8">Watch directly or click through to YouTube.</p>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {videos.map(video => (
+          <article class="flex flex-col rounded-xl overflow-hidden border border-white/10 transition-transform hover:-translate-y-1" style="background-color:#132d52">
+            <a
+              href={`https://www.youtube.com/watch?v=${video.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block relative"
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
+                alt={video.title}
+                class="w-full aspect-video object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity">
+                <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background-color:#03989e">
+                  <svg class="h-7 w-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <div class="flex flex-col flex-1 p-5">
+              <h3 class="font-semibold text-white leading-snug mb-2">
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-[#5ce1e6] transition-colors"
+                >
+                  {video.title}
+                </a>
+              </h3>
+              <p class="text-sm flex-1" style="color:#94a3b8">{video.description}</p>
+              <a
+                href={`https://www.youtube.com/watch?v=${video.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 text-sm font-medium hover:underline"
+                style="color:#5ce1e6"
+              >
+                Watch now →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 text-center">
+        <a
+          href="https://www.youtube.com/channel/UCCBxPV1V0majbAR5PNu2ACw/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block px-6 py-3 rounded-lg font-semibold border transition-colors"
+          style="color:#5ce1e6; border-color:#03989e66; background:#03989e1a"
+        >
+          See all tutorials on YouTube →
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
