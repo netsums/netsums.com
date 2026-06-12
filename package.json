@@ -9,12 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "astro preview --host 0.0.0.0 --port ${PORT:-4321}",
+    "start": "serve dist -l tcp://0.0.0.0:${PORT:-3000}",
     "astro": "astro"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.6",
+    "serve": "^14.2.6",
     "tailwindcss": "^4.3.0"
   }
 }
