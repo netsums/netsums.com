@@ -8,9 +8,18 @@ const UPLOADS_PLAYLIST_ID = 'UU' + CHANNEL_ID.slice(2);
 
 // How long a successful fetch is reused before we hit the API again. The
 // homepage is server-rendered, so without this cache every visitor would
-// trigger an API call. Six hours keeps us well inside the free daily quota
+// trigger API calls. Six hours keeps us well inside the free daily quota
 // while still surfacing new uploads the same day.
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+
+// YouTube Shorts are at most 3 minutes long. We treat anything this short as a
+// Short and leave it out of the "Latest Tutorials" list.
+const SHORT_MAX_SECONDS = 180;
+
+// Pull a generous window of recent uploads so that, after Shorts are removed,
+// we still have enough long-form videos to fill the grid. (Capped at 50, the
+// API maximum per page.)
+const FETCH_WINDOW = 50;
 
 export interface Video {
   id: string;
@@ -40,41 +49,61 @@ function truncate(text: string): string {
   return clean.length > 140 ? clean.slice(0, 140).trimEnd() + '…' : clean;
 }
 
-async function fetchFromApi(max: number): Promise<Video[]> {
-  const url = new URL('https://www.googleapis.com/youtube/v3/playlistItems');
-  url.searchParams.set('part', 'snippet');
-  url.searchParams.set('playlistId', UPLOADS_PLAYLIST_ID);
-  url.searchParams.set('maxResults', String(Math.min(Math.max(max, 1), 50)));
-  url.searchParams.set('key', YOUTUBE_API_KEY);
+// Parse an ISO 8601 duration (e.g. "PT1H2M30s") into seconds.
+function parseDurationSeconds(iso: string): number {
+  const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso ?? '');
+  if (!m) return 0;
+  const [, h, min, s] = m;
+  return (Number(h) || 0) * 3600 + (Number(min) || 0) * 60 + (Number(s) || 0);
+}
 
+async function fetchJson(url: URL): Promise<any> {
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`YouTube API responded ${res.status}: ${await res.text()}`);
   }
+  return res.json();
+}
 
-  const data = (await res.json()) as {
-    items?: Array<{
-      snippet?: {
-        title?: string;
-        description?: string;
-        publishedAt?: string;
-        resourceId?: { videoId?: string };
-      };
-    }>;
-  };
+async function fetchFromApi(max: number): Promise<Video[]> {
+  // 1. Newest uploads, in order (cheap: contentDetails just carries the ids).
+  const listUrl = new URL('https://www.googleapis.com/youtube/v3/playlistItems');
+  listUrl.searchParams.set('part', 'contentDetails');
+  listUrl.searchParams.set('playlistId', UPLOADS_PLAYLIST_ID);
+  listUrl.searchParams.set('maxResults', String(FETCH_WINDOW));
+  listUrl.searchParams.set('key', YOUTUBE_API_KEY);
+  const list = await fetchJson(listUrl);
+
+  const ids: string[] = (list.items ?? [])
+    .map((it: any) => it?.contentDetails?.videoId)
+    .filter(Boolean);
+  if (ids.length === 0) return [];
+
+  // 2. Look up snippet + duration for those ids in one call.
+  const videosUrl = new URL('https://www.googleapis.com/youtube/v3/videos');
+  videosUrl.searchParams.set('part', 'snippet,contentDetails');
+  videosUrl.searchParams.set('id', ids.join(','));
+  videosUrl.searchParams.set('maxResults', String(FETCH_WINDOW));
+  videosUrl.searchParams.set('key', YOUTUBE_API_KEY);
+  const details = await fetchJson(videosUrl);
+
+  // Index by id so we can keep the newest-first order from step 1.
+  const byId = new Map<string, any>();
+  for (const item of details.items ?? []) byId.set(item.id, item);
 
   const videos: Video[] = [];
-  for (const item of data.items ?? []) {
-    const s = item.snippet;
-    const id = s?.resourceId?.videoId;
-    const title = s?.title;
-    // Private/deleted uploads come back with no id or a "Deleted video" title.
-    if (!id || !title || title === 'Deleted video' || title === 'Private video') continue;
+  for (const id of ids) {
+    if (videos.length >= max) break;
+    const item = byId.get(id);
+    const s = item?.snippet;
+    if (!s?.title) continue;
+    // Drop Shorts (<= 3 minutes).
+    if (parseDurationSeconds(item?.contentDetails?.duration) <= SHORT_MAX_SECONDS) continue;
     videos.push({
       id,
-      title,
-      description: truncate(s?.description ?? ''),
-      publishedAt: s?.publishedAt ? formatDate(s.publishedAt) : '',
+      title: s.title,
+      description: truncate(s.description ?? ''),
+      publishedAt: s.publishedAt ? formatDate(s.publishedAt) : '',
     });
   }
   return videos;
