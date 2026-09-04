@@ -9,13 +9,16 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "serve dist -l tcp://0.0.0.0:${PORT:-3000}",
+    "start": "HOST=0.0.0.0 PORT=${PORT:-3000} node ./dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^10.1.4",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.6",
-    "serve": "^14.2.6",
     "tailwindcss": "^4.3.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }

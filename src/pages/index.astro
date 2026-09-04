@@ -2,6 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import { getLatestVideos } from '../utils/youtube';
 
+// Server-render this page on each request so the YouTube list stays current
+// without a redeploy (see src/utils/youtube.ts for caching + fallback).
+export const prerender = false;
+
 const videos = await getLatestVideos(9);
 ---
 

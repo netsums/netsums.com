@@ -1,0 +1,56 @@
+[
+  {
+    "id": "hd1U0LXdGVE",
+    "title": "Everything You Don't Know About Palo Alto Tags (Yet)",
+    "description": "Everything You Don't Know About Palo Alto Tags (Yet)   Palo Alto tags are much more powerful than just color-coding your security policies. In this video, I'll walk you through how tags can be us…",
+    "publishedAt": "November 4, 2025"
+  },
+  {
+    "id": "qBF323lytN0",
+    "title": "How to Configure BGP on Palo Alto Firewalls | Step-by-Step Tutorial [2025]",
+    "description": "How to Configure BGP on Palo Alto Firewalls | Step-by-Step Tutorial [2025]   In this video, you're going to learn how to configure BGP (Border Gateway Protocol) on the Palo Alto firewall. \n\nWhether you're new to BGP o…",
+    "publishedAt": "July 15, 2025"
+  },
+  {
+    "id": "0sqypHLjvDg",
+    "title": "Palo Alto - Geo-Redundancy with GlobalProtect [2025]",
+    "description": "Palo Alto - Geo-Redundancy with GlobalProtect [2025]   In this video, you're going to learn some pro tips on how to configure Palo Alto GlobalProtect portals and gateways for a multinational comp…",
+    "publishedAt": "June 5, 2025"
+  },
+  {
+    "id": "c2d6FWnYRfQ",
+    "title": "Optimize Security Rules with Palo Alto's Policy Optimizer",
+    "description": "Optimize Security Rules with Palo Alto's Policy Optimizer   In this video, we’re going to dive into a tool Palo Alto offers to clean up and improve your firewall policies: Policy Optimizer\n\nIf you've…",
+    "publishedAt": "May 6, 2025"
+  },
+  {
+    "id": "1cH844OYNBk",
+    "title": "URL Category vs. URL Filtering: When to Use Each in Palo Alto Firewalls",
+    "description": "URL Category vs. URL Filtering: When to Use Each in Palo Alto Firewalls   Imagine you're a Palo Alto firewall administrator, and your company wants to block all social media—except for YouTube. How do you approach…",
+    "publishedAt": "April 24, 2025"
+  },
+  {
+    "id": "LCg64UeIeSU",
+    "title": "Configuring DHCP on Palo Alto under 10 Minutes [2025]",
+    "description": "Configuring DHCP on Palo Alto under 10 Minutes [2025]   In this video, I walk you through the process of setting up a DHCP server on a Palo Alto Networks firewall. \n\n🌐 Useful Links\n- FREE NETSums…",
+    "publishedAt": "April 14, 2025"
+  },
+  {
+    "id": "1WHJdN8n9nw",
+    "title": "Automate Security Policies with Palo Alto Firewall Scheduling [2025]",
+    "description": "Automate Security Policies with Palo Alto Firewall Scheduling [2025]   In this video, I’ll show you how to configure schedule-based security policies in the Palo Alto Firewall.\n\nScheduling allows you to automati…",
+    "publishedAt": "April 7, 2025"
+  },
+  {
+    "id": "fh-cv247t5k",
+    "title": "Palo Alto Policy Tab Hacks – Boost Your Efficiency Like a Pro! [2025]",
+    "description": "Palo Alto Policy Tab Hacks – Boost Your Efficiency Like a Pro! [2025]   In this video I'll show you some tricks and shortcuts for you to navigate the Policy Tab of the Palo Alto as a PRO!\n\n🌐 Useful Links\n- Panor…",
+    "publishedAt": "March 31, 2025"
+  },
+  {
+    "id": "fbqZXbuObyc",
+    "title": "Palo Alto Panorama Template Variables [2025]",
+    "description": "Palo Alto Panorama Template Variables [2025]   #paloaltofirewall #paloaltonetworks #firewall \n\nIn this video I'm going to show you how to use Panorama Template Variables, in order to reus…",
+    "publishedAt": "January 30, 2025"
+  }
+]
