@@ -1,0 +1,175 @@
+---
+// Cookie consent banner + consent-gated marketing-pixel loader.
+//
+// Compliance model (German TTDSG § 25 + GDPR): the Meta Pixel and LinkedIn
+// Insight Tag are NEVER loaded until the visitor explicitly clicks "Accept".
+// "Accept" and "Reject" carry equal visual weight, the choice is stored, and it
+// can be withdrawn at any time via the footer "Cookie settings" link
+// (window.openCookieSettings). Essential cookies need no consent and are not
+// gated here.
+//
+// TO GO LIVE: replace the two placeholder IDs below with your real IDs from
+// Meta Events Manager and LinkedIn Campaign Manager. While they stay as the
+// placeholder strings, the banner still shows but no pixel is loaded, so it is
+// safe to deploy now and flip on later.
+const META_PIXEL_ID = "YOUR_META_PIXEL_ID";
+const LINKEDIN_PARTNER_ID = "YOUR_LINKEDIN_PARTNER_ID";
+---
+
+<div
+  id="consent-banner"
+  hidden
+  role="dialog"
+  aria-modal="false"
+  aria-label="Cookie consent"
+  style="position:fixed;left:0;right:0;bottom:0;z-index:9999;padding:1rem;"
+>
+  <div
+    style="max-width:64rem;margin:0 auto;background-color:#132d52;border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:1.25rem 1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.35);"
+  >
+    <p style="color:#e2e8f0;font-size:0.95rem;line-height:1.5;margin:0 0 0.35rem;font-weight:600;">
+      We value your privacy
+    </p>
+    <p style="color:#94a3b8;font-size:0.875rem;line-height:1.55;margin:0 0 1rem;">
+      We use only essential cookies to run this site. With your consent, we also
+      use the Meta Pixel and LinkedIn Insight Tag to measure our ads. These are
+      not loaded unless you accept. You can change your choice any time via
+      &ldquo;Cookie settings&rdquo; in the footer. See our
+      <a href="/privacy-policy" style="color:#5ce1e6;">Privacy Policy</a>.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;">
+      <button
+        type="button"
+        data-consent="accept"
+        style="flex:1 1 auto;min-width:9rem;background-color:#5ce1e6;color:#0a1628;border:none;border-radius:0.5rem;padding:0.6rem 1rem;font-weight:700;font-size:0.9rem;cursor:pointer;"
+      >
+        Accept
+      </button>
+      <button
+        type="button"
+        data-consent="reject"
+        style="flex:1 1 auto;min-width:9rem;background-color:transparent;color:#e2e8f0;border:1px solid rgba(255,255,255,0.35);border-radius:0.5rem;padding:0.6rem 1rem;font-weight:700;font-size:0.9rem;cursor:pointer;"
+      >
+        Reject
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ META_PIXEL_ID, LINKEDIN_PARTNER_ID }}>
+  (function () {
+    var KEY = "netsums_consent"; // "granted" | "denied"
+    var PLACEHOLDER_META = "YOUR_META_PIXEL_ID";
+    var PLACEHOLDER_LI = "YOUR_LINKEDIN_PARTNER_ID";
+    var banner = document.getElementById("consent-banner");
+
+    function store(v) {
+      try {
+        localStorage.setItem(KEY, v);
+      } catch (e) {}
+    }
+    function read() {
+      try {
+        return localStorage.getItem(KEY);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function loadMetaPixel() {
+      if (!META_PIXEL_ID || META_PIXEL_ID === PLACEHOLDER_META) return;
+      if (window.fbq) return;
+      /* eslint-disable */
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      window.fbq("init", META_PIXEL_ID);
+      window.fbq("track", "PageView");
+      /* eslint-enable */
+    }
+
+    function loadLinkedIn() {
+      if (!LINKEDIN_PARTNER_ID || LINKEDIN_PARTNER_ID === PLACEHOLDER_LI) return;
+      if (window._linkedin_data_partner_ids) return;
+      window._linkedin_partner_id = LINKEDIN_PARTNER_ID;
+      window._linkedin_data_partner_ids =
+        window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(LINKEDIN_PARTNER_ID);
+      (function (l) {
+        if (!l) {
+          window.lintrk = function (a, b) {
+            window.lintrk.q.push([a, b]);
+          };
+          window.lintrk.q = [];
+        }
+        var s = document.getElementsByTagName("script")[0];
+        var b = document.createElement("script");
+        b.type = "text/javascript";
+        b.async = true;
+        b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+        s.parentNode.insertBefore(b, s);
+      })(window.lintrk);
+    }
+
+    function enableMarketing() {
+      loadMetaPixel();
+      loadLinkedIn();
+    }
+
+    function show() {
+      if (banner) banner.hidden = false;
+    }
+    function hide() {
+      if (banner) banner.hidden = true;
+    }
+
+    if (banner) {
+      banner.addEventListener("click", function (ev) {
+        var t = ev.target.closest("[data-consent]");
+        if (!t) return;
+        var choice = t.getAttribute("data-consent");
+        if (choice === "accept") {
+          store("granted");
+          hide();
+          enableMarketing();
+        } else if (choice === "reject") {
+          store("denied");
+          hide();
+        }
+      });
+    }
+
+    // Re-open point for the footer "Cookie settings" link.
+    window.openCookieSettings = function () {
+      show();
+    };
+
+    // Apply a stored choice on load; show the banner only if no choice yet.
+    var current = read();
+    if (current === "granted") {
+      enableMarketing();
+    } else if (current !== "denied") {
+      show();
+    }
+  })();
+</script>
